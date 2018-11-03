@@ -1,0 +1,44 @@
+package com.cloudmade.xlogger;
+public class ViewModelMainActivitySampleInitializer {
+public static void initXLogger(com.cloudmade.xloggerapp.sample.ViewModelMainActivitySample enclosingClass) {
+
+com.cloudmade.xlogger.ObservableFieldWrapper<java.lang.String> newFieldobservableFieldString = new com.cloudmade.xlogger.ObservableFieldWrapper(enclosingClass
+.observableFieldString
+.get(), "observableFieldString", enclosingClass.getClass().getSimpleName());
+enclosingClass.observableFieldString = newFieldobservableFieldString;
+com.cloudmade.xlogger.ObservableBooleanWrapper newFieldobservableBoolean = new com.cloudmade.xlogger.ObservableBooleanWrapper(enclosingClass
+.observableBoolean
+.get(), "observableBoolean", enclosingClass.getClass().getSimpleName());
+enclosingClass.observableBoolean = newFieldobservableBoolean;
+com.cloudmade.xlogger.ObservableByteWrapper newFieldobservableByte = new com.cloudmade.xlogger.ObservableByteWrapper(enclosingClass
+.observableByte
+.get(), "observableByte", enclosingClass.getClass().getSimpleName());
+enclosingClass.observableByte = newFieldobservableByte;
+com.cloudmade.xlogger.ObservableCharWrapper newFieldobservableChar = new com.cloudmade.xlogger.ObservableCharWrapper(enclosingClass
+.observableChar
+.get(), "observableChar", enclosingClass.getClass().getSimpleName());
+enclosingClass.observableChar = newFieldobservableChar;
+com.cloudmade.xlogger.ObservableDoubleWrapper newFieldobservableDouble = new com.cloudmade.xlogger.ObservableDoubleWrapper(enclosingClass
+.observableDouble
+.get(), "observableDouble", enclosingClass.getClass().getSimpleName());
+enclosingClass.observableDouble = newFieldobservableDouble;
+com.cloudmade.xlogger.ObservableFloatWrapper newFieldobservableFloat = new com.cloudmade.xlogger.ObservableFloatWrapper(enclosingClass
+.observableFloat
+.get(), "observableFloat", enclosingClass.getClass().getSimpleName());
+enclosingClass.observableFloat = newFieldobservableFloat;
+com.cloudmade.xlogger.ObservableIntWrapper newFieldobservableInt = new com.cloudmade.xlogger.ObservableIntWrapper(enclosingClass
+.observableInt
+.get(), "observableInt", enclosingClass.getClass().getSimpleName());
+enclosingClass.observableInt = newFieldobservableInt;
+com.cloudmade.xlogger.ObservableLongWrapper newFieldobservableLong = new com.cloudmade.xlogger.ObservableLongWrapper(enclosingClass
+.observableLong
+.get(), "observableLong", enclosingClass.getClass().getSimpleName());
+enclosingClass.observableLong = newFieldobservableLong;
+com.cloudmade.xlogger.ObservableShortWrapper newFieldobservableShort = new com.cloudmade.xlogger.ObservableShortWrapper(enclosingClass
+.observableShort
+.get(), "observableShort", enclosingClass.getClass().getSimpleName());
+enclosingClass.observableShort = newFieldobservableShort;
+
+
+}
+}

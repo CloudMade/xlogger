@@ -1,0 +1,8 @@
+package $package;
+public class $initClassName {
+public static void initXLogger($enclosingClassFullName enclosingClass) {
+
+$body
+
+}
+}

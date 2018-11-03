@@ -1,0 +1,22 @@
+package com.cloudmade.xlogger;
+
+
+import android.databinding.ObservableBoolean;
+
+public class ObservableBooleanWrapper extends ObservableBoolean{
+
+    public final String fieldName;
+    public final String enclosingClassName;
+
+    public ObservableBooleanWrapper(boolean value, String fieldName, String enclosingClassName) {
+        super(value);
+        this.fieldName = fieldName;
+        this.enclosingClassName = enclosingClassName;
+    }
+
+    @Override
+    public void set(boolean value) {
+        super.set(value);
+        android.util.Log.d("UI", "value " + value + " was set into " + enclosingClassName + "." + fieldName);
+    }
+}
