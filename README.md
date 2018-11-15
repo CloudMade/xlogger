@@ -30,5 +30,10 @@ Set new value to **Observable Field**.
 And in **Logcat** message can be seen:
 `10388-10388/com.cloudmade.xloggerapp D/UI: value Hello World! was set into ViewModelMainActivity.messageObservable`
 
+### Installation:
+
+    implementation 'com.cloudmade.xlogger:xlogger:1.0.0'
+    annotationProcessor 'com.cloudmade.xlogger:xlogger:1.0.0'
+
 
 
