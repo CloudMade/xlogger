@@ -11,9 +11,8 @@ import android.databinding.ObservableLong;
 import android.databinding.ObservableShort;
 
 import com.cloudmade.xlogger.Loggable;
+import com.cloudmade.xlogger.XLogger;
 import com.cloudmade.xloggerapp.viewmodel.BaseViewModel;
-
-import static com.cloudmade.xlogger.ViewModelMainActivitySampleInitializer.initXLogger;
 
 public class ViewModelMainActivitySample extends BaseViewModel {
 
@@ -37,7 +36,7 @@ public class ViewModelMainActivitySample extends BaseViewModel {
     public ObservableShort observableShort = new ObservableShort();
 
     public ViewModelMainActivitySample() {
-        initXLogger(this);
+        XLogger.init(this);
     }
 
     @Override

@@ -1,0 +1,4 @@
+public static void init($enclosingClass enclosingClass) {
+    $initializerClass
+    .initXLogger(enclosingClass);
+}

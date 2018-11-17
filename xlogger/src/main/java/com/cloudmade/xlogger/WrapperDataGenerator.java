@@ -1,25 +1,19 @@
 package com.cloudmade.xlogger;
 
-import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
-import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.processing.ProcessingEnvironment;
-import javax.tools.JavaFileObject;
 
-class WrapperDataGenerator {
-
-    private ProcessingEnvironment processingEnvironment;
-    private VelocityEngine velocityEngine;
+class WrapperDataGenerator extends ClassGenerator {
 
     private List<String> alreadyCreatedWrappers;
 
     WrapperDataGenerator(ProcessingEnvironment processingEnvironment, VelocityEngine velocityEngine) {
+        super(processingEnvironment, velocityEngine);
         this.processingEnvironment = processingEnvironment;
         this.velocityEngine = velocityEngine;
 
@@ -50,16 +44,8 @@ class WrapperDataGenerator {
         velocityContext.put("resultClassName", wrapperData.wrapperShortName);
         velocityContext.put("valueType", wrapperData.isPrimitive ? wrapperData.valueTypeName : "T");
 
-        Template template = velocityEngine.getTemplate(VelocityTemplate.OBSERVABLE_WRAPPER.templatePath);
-
-        try {
-            JavaFileObject source = processingEnvironment.getFiler().createSourceFile(wrapperData.wrapperFullName);
-            Writer writer = source.openWriter();
-            template.merge(velocityContext, writer);
-            writer.close();
+        if (writeFile(wrapperData.wrapperFullName, VelocityTemplate.OBSERVABLE_WRAPPER, velocityContext)) {
             alreadyCreatedWrappers.add(wrapperData.wrapperShortName);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }

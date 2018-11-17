@@ -25,9 +25,10 @@ import javax.lang.model.element.TypeElement;
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class XLoggerAnnotationProcessor extends AbstractProcessor {
 
-    private BindingLoggerInitializer bindingLoggerInitializer;
+    private BindingLoggerInitializerGenerator bindingLoggerInitializerGenerator;
     private WrapperDataProcessor wrapperDataProcessor;
     private WrapperDataGenerator wrapperDataGenerator;
+    private InitializerFactoryGenerator initializerFactoryGenerator;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
@@ -38,37 +39,45 @@ public class XLoggerAnnotationProcessor extends AbstractProcessor {
         velocityEngine.setProperty("class.resource.loader.class", ClasspathResourceLoader.class.getName());
         velocityEngine.init();
 
-        bindingLoggerInitializer = new BindingLoggerInitializer(processingEnvironment, velocityEngine);
+        bindingLoggerInitializerGenerator = new BindingLoggerInitializerGenerator(processingEnvironment, velocityEngine);
         wrapperDataProcessor = new WrapperDataProcessor();
         wrapperDataGenerator = new WrapperDataGenerator(processingEnvironment, velocityEngine);
+        initializerFactoryGenerator = new InitializerFactoryGenerator(processingEnvironment, velocityEngine);
     }
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
-        Map<String, List<Element>> annotatedFields = new HashMap<>();
+        if (!nothingToDo(set, roundEnvironment)) {
+            Map<String, List<Element>> annotatedFields = new HashMap<>();
 
-        //find all fields annotated with Loggable annotation
-        for (Element element : roundEnvironment.getElementsAnnotatedWith(Loggable.class)) {
-            if (element.getKind() != ElementKind.FIELD) {
-                return false;
+            //find all fields annotated with Loggable annotation
+            for (Element element : roundEnvironment.getElementsAnnotatedWith(Loggable.class)) {
+                if (element.getKind() != ElementKind.FIELD) {
+                    return false;
+                }
+
+                String enclosingClassCanonicalName = processingEnv.getElementUtils().getBinaryName((TypeElement) element.getEnclosingElement()).toString();
+
+                if (annotatedFields.containsKey(enclosingClassCanonicalName)) {
+                    annotatedFields.get(enclosingClassCanonicalName).add(element);
+                } else {
+                    annotatedFields.put(enclosingClassCanonicalName, new ArrayList<>(Collections.singletonList(element)));
+                }
             }
 
-            String enclosingClassCanonicalName = processingEnv.getElementUtils().getBinaryName((TypeElement) element.getEnclosingElement()).toString();
-
-            if (annotatedFields.containsKey(enclosingClassCanonicalName)) {
-                annotatedFields.get(enclosingClassCanonicalName).add(element);
-            } else {
-                annotatedFields.put(enclosingClassCanonicalName, new ArrayList<>(Collections.singletonList(element)));
+            //magic starts here
+            for (Map.Entry<String, List<Element>> annotatedFieldsEntry : annotatedFields.entrySet()) {
+                List<AnnotatedElementEntity> annotatedElementEntities = wrapperDataProcessor.process(annotatedFieldsEntry.getValue());
+                wrapperDataGenerator.generateWrappers(annotatedElementEntities);
+                bindingLoggerInitializerGenerator.createLogInitializer(annotatedFieldsEntry.getKey(), annotatedElementEntities);
             }
-        }
-
-        //magic starts here
-        for (Map.Entry<String, List<Element>> annotatedFieldsEntry : annotatedFields.entrySet()) {
-            List<AnnotatedElementEntity> annotatedElementEntities = wrapperDataProcessor.process(annotatedFieldsEntry.getValue());
-            wrapperDataGenerator.generateWrappers(annotatedElementEntities);
-            bindingLoggerInitializer.createLogInitializer(annotatedFieldsEntry.getKey(), annotatedElementEntities);
+            initializerFactoryGenerator.generateFactory(annotatedFields.keySet());
         }
 
         return true;
+    }
+
+    private boolean nothingToDo(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        return roundEnv.processingOver() || annotations.size() == 0;
     }
 }
