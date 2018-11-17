@@ -12,7 +12,7 @@ ext {
     siteUrl = 'https://github.com/CloudMade/xlogger'
     gitUrl = 'https://github.com/CloudMade/xlogger.git'
 
-    libraryVersion = '1.0.0'
+    libraryVersion = '1.1.0'
 
     developerIds = ['sergiy.grechukha', 'egor.danylenko', 'pavel.ratushnyi']
     developerNames = ['Sergiy Grechukha', 'Egor Danylenko', 'Pavel Ratushnyi']

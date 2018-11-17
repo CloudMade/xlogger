@@ -3,8 +3,7 @@ package com.cloudmade.xloggerapp.viewmodel;
 import android.databinding.ObservableField;
 
 import com.cloudmade.xlogger.Loggable;
-
-import static com.cloudmade.xlogger.ViewModelMainActivityInitializer.initXLogger;
+import com.cloudmade.xlogger.XLogger;
 
 public class ViewModelMainActivity extends BaseViewModel {
 
@@ -12,7 +11,7 @@ public class ViewModelMainActivity extends BaseViewModel {
     public ObservableField<String> messageObservable = new ObservableField<>();
 
     public ViewModelMainActivity() {
-        initXLogger(this);
+        XLogger.init(this);
     }
 
     @Override
