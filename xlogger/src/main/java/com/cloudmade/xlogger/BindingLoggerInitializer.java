@@ -3,8 +3,6 @@ package com.cloudmade.xlogger;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -12,34 +10,24 @@ import java.io.Writer;
 import java.util.List;
 
 import javax.annotation.processing.ProcessingEnvironment;
-import javax.lang.model.element.Element;
 import javax.tools.JavaFileObject;
 
 class BindingLoggerInitializer {
 
     private ProcessingEnvironment processingEnvironment;
-
-    private WrapperDataInitializer wrapperDataInitializer;
     private VelocityEngine velocityEngine;
 
-    BindingLoggerInitializer(ProcessingEnvironment processingEnvironment) {
+    BindingLoggerInitializer(ProcessingEnvironment processingEnvironment, VelocityEngine velocityEngine) {
         this.processingEnvironment = processingEnvironment;
-
-        velocityEngine = new VelocityEngine();
-        velocityEngine.setProperty(RuntimeConstants.RESOURCE_LOADER, "class");
-        velocityEngine.setProperty("class.resource.loader.class", ClasspathResourceLoader.class.getName());
-
-        velocityEngine.init();
-
-        wrapperDataInitializer = new WrapperDataInitializer(velocityEngine, processingEnvironment);
+        this.velocityEngine = velocityEngine;
     }
 
     /**
      * Generates classes for single class with fields annotated with {@link Loggable}
      * @param enclosingClassName name of class which contains fields annotated with {@link Loggable}
-     * @param elements fields annotated with {@link Loggable}
+     * @param annotatedElementEntities info about annotated field
      */
-    void createLogInitializer(String enclosingClassName, List<Element> elements) {
+    void createLogInitializer(String enclosingClassName, List<AnnotatedElementEntity> annotatedElementEntities) {
         VelocityContext velocityContext = new VelocityContext();
 
         String simpleEnclosingClassName = enclosingClassName.substring(enclosingClassName.lastIndexOf('.') + 1);
@@ -50,7 +38,7 @@ class BindingLoggerInitializer {
         velocityContext.put("enclosingClassFullName", enclosingClassName);
 
         //create body of static method initXLogger(enclosingClass)
-        velocityContext.put("body", createFieldReinitializers(elements));
+        velocityContext.put("body", createFieldReinitializers(annotatedElementEntities));
 
         Template template = velocityEngine.getTemplate(VelocityTemplate.INIT_CLASS.templatePath);
 
@@ -68,18 +56,13 @@ class BindingLoggerInitializer {
 
     /**
      * Creates body of static method initXLogger(enclosingClass)
-     * @param elements fields annotated with {@link Loggable}
+     * @param annotatedElementEntities info about annotated field
      * @return body of static method initXLogger(enclosingClass)
      */
-    private String createFieldReinitializers(List<Element> elements) {
+    private String createFieldReinitializers(List<AnnotatedElementEntity> annotatedElementEntities) {
         StringBuilder methodContent = new StringBuilder();
-        for (Element element : elements) {
-            String simpleName = element.getSimpleName().toString();
-            String fieldType = element.asType().toString();
-
-            WrapperData wrapperData = wrapperDataInitializer.initWrapper(fieldType, simpleName);
-
-            methodContent.append(getFieldReinitializeCodeSnippet(wrapperData, simpleName)).append("\n");
+        for (AnnotatedElementEntity element : annotatedElementEntities) {
+            methodContent.append(getFieldReinitializeCodeSnippet(element.getWrapperData(), element.getFieldName())).append("\n");
         }
         return methodContent.toString();
     }

@@ -1,5 +1,9 @@
 package com.cloudmade.xlogger;
 
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,11 +26,21 @@ import javax.lang.model.element.TypeElement;
 public class XLoggerAnnotationProcessor extends AbstractProcessor {
 
     private BindingLoggerInitializer bindingLoggerInitializer;
+    private WrapperDataProcessor wrapperDataProcessor;
+    private WrapperDataGenerator wrapperDataGenerator;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
         super.init(processingEnvironment);
-        bindingLoggerInitializer = new BindingLoggerInitializer(processingEnvironment);
+
+        VelocityEngine velocityEngine = new VelocityEngine();
+        velocityEngine.setProperty(RuntimeConstants.RESOURCE_LOADER, "class");
+        velocityEngine.setProperty("class.resource.loader.class", ClasspathResourceLoader.class.getName());
+        velocityEngine.init();
+
+        bindingLoggerInitializer = new BindingLoggerInitializer(processingEnvironment, velocityEngine);
+        wrapperDataProcessor = new WrapperDataProcessor();
+        wrapperDataGenerator = new WrapperDataGenerator(processingEnvironment, velocityEngine);
     }
 
     @Override
@@ -50,7 +64,9 @@ public class XLoggerAnnotationProcessor extends AbstractProcessor {
 
         //magic starts here
         for (Map.Entry<String, List<Element>> annotatedFieldsEntry : annotatedFields.entrySet()) {
-            bindingLoggerInitializer.createLogInitializer(annotatedFieldsEntry.getKey(), annotatedFieldsEntry.getValue());
+            List<AnnotatedElementEntity> annotatedElementEntities = wrapperDataProcessor.process(annotatedFieldsEntry.getValue());
+            wrapperDataGenerator.generateWrappers(annotatedElementEntities);
+            bindingLoggerInitializer.createLogInitializer(annotatedFieldsEntry.getKey(), annotatedElementEntities);
         }
 
         return true;
