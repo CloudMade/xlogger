@@ -1,16 +1,15 @@
 package com.cloudmade.xlogger;
 
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
 
 import java.util.Set;
 
-import javax.annotation.processing.ProcessingEnvironment;
+class InitializerFactoryGenerator {
 
-class InitializerFactoryGenerator extends ClassGenerator {
+    private ClassGenerator classGenerator;
 
-    InitializerFactoryGenerator(ProcessingEnvironment processingEnvironment, VelocityEngine velocityEngine) {
-        super(processingEnvironment, velocityEngine);
+    InitializerFactoryGenerator(ClassGenerator classGenerator) {
+        this.classGenerator = classGenerator;
     }
 
     void generateFactory(Set<String> enclosingClassNames) {
@@ -19,7 +18,7 @@ class InitializerFactoryGenerator extends ClassGenerator {
         velocityContext.put("package", Const.GENERATED_PACKAGE);
         velocityContext.put("initializerFactoryMethods", getInitializerFactoryMethods(enclosingClassNames));
 
-        writeFile(Const.GENERATED_PACKAGE + "." + Const.INITIALIZER_FACTORY_CLASS_NAME, VelocityTemplate.INITIALIZER_FACTORY, velocityContext);
+        classGenerator.writeFile(Const.GENERATED_PACKAGE + "." + Const.INITIALIZER_FACTORY_CLASS_NAME, VelocityTemplate.INITIALIZER_FACTORY, velocityContext);
     }
 
     private String getInitializerFactoryMethods(Set<String> enclosingClassNames) {
@@ -30,7 +29,7 @@ class InitializerFactoryGenerator extends ClassGenerator {
             velocityContext.put("enclosingClass", enclosingClassName);
             velocityContext.put("initializerClass", Const.GENERATED_PACKAGE + "." + simpleEnclosingClassName + Const.INITIALIZER_POST_FIX);
 
-            sb.append(mergeVelocityContext(velocityContext, VelocityTemplate.INITIALIZER_FACTORY_METHOD)).append("\n");
+            sb.append(classGenerator.mergeVelocityContext(velocityContext, VelocityTemplate.INITIALIZER_FACTORY_METHOD)).append("\n");
         }
         return sb.toString();
     }

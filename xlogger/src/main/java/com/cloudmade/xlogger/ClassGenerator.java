@@ -11,7 +11,7 @@ import java.io.Writer;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.tools.JavaFileObject;
 
-abstract class ClassGenerator {
+class ClassGenerator {
 
     ProcessingEnvironment processingEnvironment;
     VelocityEngine velocityEngine;

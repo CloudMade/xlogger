@@ -1,22 +1,17 @@
 package com.cloudmade.xlogger;
 
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.processing.ProcessingEnvironment;
-
-class WrapperDataGenerator extends ClassGenerator {
+class WrapperDataGenerator {
 
     private List<String> alreadyCreatedWrappers;
+    private ClassGenerator classGenerator;
 
-    WrapperDataGenerator(ProcessingEnvironment processingEnvironment, VelocityEngine velocityEngine) {
-        super(processingEnvironment, velocityEngine);
-        this.processingEnvironment = processingEnvironment;
-        this.velocityEngine = velocityEngine;
-
+    WrapperDataGenerator(ClassGenerator classGenerator) {
+        this.classGenerator = classGenerator;
         this.alreadyCreatedWrappers = new ArrayList<>();
     }
 
@@ -44,7 +39,7 @@ class WrapperDataGenerator extends ClassGenerator {
         velocityContext.put("resultClassName", wrapperData.wrapperShortName);
         velocityContext.put("valueType", wrapperData.isPrimitive ? wrapperData.valueTypeName : "T");
 
-        if (writeFile(wrapperData.wrapperFullName, VelocityTemplate.OBSERVABLE_WRAPPER, velocityContext)) {
+        if (classGenerator.writeFile(wrapperData.wrapperFullName, VelocityTemplate.OBSERVABLE_WRAPPER, velocityContext)) {
             alreadyCreatedWrappers.add(wrapperData.wrapperShortName);
         }
     }

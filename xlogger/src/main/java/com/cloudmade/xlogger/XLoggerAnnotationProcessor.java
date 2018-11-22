@@ -39,10 +39,11 @@ public class XLoggerAnnotationProcessor extends AbstractProcessor {
         velocityEngine.setProperty("class.resource.loader.class", ClasspathResourceLoader.class.getName());
         velocityEngine.init();
 
-        bindingLoggerInitializerGenerator = new BindingLoggerInitializerGenerator(processingEnvironment, velocityEngine);
+        ClassGenerator classGenerator = new ClassGenerator(processingEnvironment, velocityEngine);
+        bindingLoggerInitializerGenerator = new BindingLoggerInitializerGenerator(classGenerator);
         wrapperDataProcessor = new WrapperDataProcessor();
-        wrapperDataGenerator = new WrapperDataGenerator(processingEnvironment, velocityEngine);
-        initializerFactoryGenerator = new InitializerFactoryGenerator(processingEnvironment, velocityEngine);
+        wrapperDataGenerator = new WrapperDataGenerator(classGenerator);
+        initializerFactoryGenerator = new InitializerFactoryGenerator(classGenerator);
     }
 
     @Override

@@ -1,16 +1,15 @@
 package com.cloudmade.xlogger;
 
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
 
 import java.util.List;
 
-import javax.annotation.processing.ProcessingEnvironment;
+class BindingLoggerInitializerGenerator {
 
-class BindingLoggerInitializerGenerator extends ClassGenerator {
+    private ClassGenerator classGenerator;
 
-    BindingLoggerInitializerGenerator(ProcessingEnvironment processingEnvironment, VelocityEngine velocityEngine) {
-        super(processingEnvironment, velocityEngine);
+    BindingLoggerInitializerGenerator(ClassGenerator classGenerator) {
+        this.classGenerator = classGenerator;
     }
 
     /**
@@ -31,7 +30,7 @@ class BindingLoggerInitializerGenerator extends ClassGenerator {
         //create body of static method initXLogger(enclosingClass)
         velocityContext.put("body", createFieldReinitializers(annotatedElementEntities));
 
-        writeFile(Const.GENERATED_PACKAGE + "." + fileName, VelocityTemplate.INIT_CLASS, velocityContext);
+        classGenerator.writeFile(Const.GENERATED_PACKAGE + "." + fileName, VelocityTemplate.INIT_CLASS, velocityContext);
     }
 
     /**
@@ -59,6 +58,6 @@ class BindingLoggerInitializerGenerator extends ClassGenerator {
         velocityContext.put("genericType", wrapperData.isPrimitive ? "" : wrapperData.genericParam);
         velocityContext.put("fieldName", simpleName);
 
-        return mergeVelocityContext(velocityContext, VelocityTemplate.INIT_FIELD);
+        return classGenerator.mergeVelocityContext(velocityContext, VelocityTemplate.INIT_FIELD);
     }
 }
