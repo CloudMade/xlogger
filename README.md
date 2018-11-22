@@ -22,7 +22,7 @@ To make **Data Binding Observable Field Loggable**, it should be annotated with 
     @Loggable
     public ObservableField<String> messageObservable = new ObservableField<>();
     
-Call generated static method `initXLogger(this);`
+Call generated static method `XLogger.init(this);`
 
 Set new value to **Observable Field**.
 `messageObservable.set("Hello World!");`
