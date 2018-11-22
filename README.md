@@ -32,8 +32,8 @@ And in **Logcat** message can be seen:
 
 ### Installation:
 
-    implementation 'com.cloudmade.xlogger:xlogger:1.0.0'
-    annotationProcessor 'com.cloudmade.xlogger:xlogger:1.0.0'
+    implementation 'com.cloudmade.xlogger:xlogger:1.1.0'
+    annotationProcessor 'com.cloudmade.xlogger:xlogger:1.1.0'
 
 
 
