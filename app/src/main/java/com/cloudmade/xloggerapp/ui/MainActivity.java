@@ -1,8 +1,6 @@
 package com.cloudmade.xloggerapp.ui;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.cloudmade.xloggerapp.R;
 import com.cloudmade.xloggerapp.XLoggerApplication;
@@ -13,6 +11,9 @@ import com.cloudmade.xloggerapp.di.ApplicationComponent;
 import com.cloudmade.xloggerapp.viewmodel.ViewModelMainActivity;
 
 import javax.inject.Inject;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 public class MainActivity extends AppCompatActivity {
 

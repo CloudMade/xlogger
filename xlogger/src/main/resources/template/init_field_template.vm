@@ -1,4 +1,4 @@
-$fullObservableWrapperName$genericType newField$fieldName = new $fullObservableWrapperName(enclosingClass
+$fullWrapperName$genericType newField$fieldName = new $fullWrapperName(enclosingClass
 .$fieldName
-.get(), "$fieldName", enclosingClass.getClass().getSimpleName());
+.getValue(), "$fieldName", enclosingClass.getClass().getSimpleName());
 enclosingClass.$fieldName = newField$fieldName;

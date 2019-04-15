@@ -1,14 +1,14 @@
 package com.cloudmade.xloggerapp.viewmodel;
 
-import android.databinding.ObservableField;
-
 import com.cloudmade.xlogger.Loggable;
 import com.cloudmade.xlogger.XLogger;
+
+import androidx.lifecycle.MutableLiveData;
 
 public class ViewModelMainActivity extends BaseViewModel {
 
     @Loggable
-    public ObservableField<String> messageObservable = new ObservableField<>();
+    public MutableLiveData<String> messageLiveData = new MutableLiveData<>();
 
     public ViewModelMainActivity() {
         XLogger.init(this);
@@ -17,6 +17,6 @@ public class ViewModelMainActivity extends BaseViewModel {
     @Override
     public void onResume() {
         super.onResume();
-        messageObservable.set("Hello World!");
+        messageLiveData.setValue("Hello World!");
     }
 }
