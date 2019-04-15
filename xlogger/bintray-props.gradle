@@ -7,18 +7,26 @@ ext {
     libraryName = 'XLogger'
     artifact = 'xlogger'
 
-    libraryDescription = 'XLogger is a Java library built for Android which writes to Logcat when new value is set to Android Data Binding Observable Field.'
+    libraryDescription = 'XLogger is a Java library built for Android which writes to Logcat when new value is set to Android LiveData.'
 
     siteUrl = 'https://github.com/CloudMade/xlogger'
     gitUrl = 'https://github.com/CloudMade/xlogger.git'
 
-    libraryVersion = '1.1.0'
+    libraryVersion = '1.2.0'
 
-    developerIds = ['sergiy.grechukha', 'egor.danylenko', 'pavel.ratushnyi']
-    developerNames = ['Sergiy Grechukha', 'Egor Danylenko', 'Pavel Ratushnyi']
-    developerEmails = ['sergiy.grechukha@cloudmade.com', 'egor.danylenko@cloudmade.com', 'pavel.ratushnyi@cloudmade.com']
+    developers = [
+            new Developer(developerId: 'sergiy.grechukha', developerName: 'Sergiy Grechukha', developerEmail: 'sergiy.grechukha@cloudmade.com'),
+            new Developer(developerId: 'egor.danylenko', developerName: 'Egor Danylenko', developerEmail: 'egor.danylenko@cloudmade.com'),
+            new Developer(developerId: 'pavel.ratushnyi', developerName: 'Pavel Ratushnyi', developerEmail: 'pavel.ratushnyi@cloudmade.com')
+    ]
 
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
     allLicenses = ["Apache-2.0"]
+}
+
+class Developer {
+    String developerId
+    String developerEmail
+    String developerName
 }

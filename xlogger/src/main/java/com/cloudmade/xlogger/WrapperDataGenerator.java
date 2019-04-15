@@ -34,12 +34,10 @@ class WrapperDataGenerator {
     private void createWrapper(WrapperData wrapperData) {
         VelocityContext velocityContext = new VelocityContext();
         velocityContext.put("package", Const.GENERATED_PACKAGE);
-        velocityContext.put("sourceClass", wrapperData.superClassShortName);
-        velocityContext.put("generic", wrapperData.isPrimitive ? "" : "<T>");
+        velocityContext.put("sourceClass", wrapperData.superClassFullName);
         velocityContext.put("resultClassName", wrapperData.wrapperShortName);
-        velocityContext.put("valueType", wrapperData.isPrimitive ? wrapperData.valueTypeName : "T");
 
-        if (classGenerator.writeFile(wrapperData.wrapperFullName, VelocityTemplate.OBSERVABLE_WRAPPER, velocityContext)) {
+        if (classGenerator.writeFile(wrapperData.wrapperFullName, VelocityTemplate.WRAPPER, velocityContext)) {
             alreadyCreatedWrappers.add(wrapperData.wrapperShortName);
         }
     }

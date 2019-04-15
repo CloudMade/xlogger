@@ -13,8 +13,8 @@ import javax.tools.JavaFileObject;
 
 class ClassGenerator {
 
-    ProcessingEnvironment processingEnvironment;
-    VelocityEngine velocityEngine;
+    private ProcessingEnvironment processingEnvironment;
+    private VelocityEngine velocityEngine;
 
     ClassGenerator(ProcessingEnvironment processingEnvironment, VelocityEngine velocityEngine) {
         this.processingEnvironment = processingEnvironment;

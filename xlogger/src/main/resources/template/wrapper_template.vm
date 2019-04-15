@@ -1,22 +1,19 @@
 package $package;
 
-
-import android.databinding.$sourceClass;
-
-public class $resultClassName$generic extends $sourceClass$generic{
+public class $resultClassName<T> extends $sourceClass<T> {
 
     public final String fieldName;
     public final String enclosingClassName;
 
-    public $resultClassName($valueType value, String fieldName, String enclosingClassName) {
-        super(value);
+    public $resultClassName(T value, String fieldName, String enclosingClassName) {
+        super();
         this.fieldName = fieldName;
         this.enclosingClassName = enclosingClassName;
     }
 
     @Override
-    public void set($valueType value) {
-        super.set(value);
+    public void setValue(T value) {
+        super.setValue(value);
         android.util.Log.d("UI", "value " + value + " was set into " + enclosingClassName + "." + fieldName);
     }
 }

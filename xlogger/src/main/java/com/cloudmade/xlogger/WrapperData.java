@@ -1,31 +1,15 @@
 package com.cloudmade.xlogger;
 
-public class WrapperData {
-    final String superClassShortName;
+class WrapperData {
+    final String superClassFullName;
     final String wrapperFullName;
     final String wrapperShortName;
     final String valueTypeName;
-    final boolean isPrimitive;
-    final String genericParam;
 
-    WrapperData(String superClassShortName, String wrapperFullName, String wrapperShortName, String valueTypeName, boolean isPrimitive) {
-        this.superClassShortName = superClassShortName;
+    WrapperData(String superClassFullName, String wrapperFullName, String wrapperShortName, String valueTypeName) {
+        this.superClassFullName = superClassFullName;
         this.wrapperFullName = wrapperFullName;
         this.wrapperShortName = wrapperShortName;
         this.valueTypeName = valueTypeName;
-        this.isPrimitive = isPrimitive;
-        this.genericParam = isPrimitive ? "" : "<" + this.valueTypeName + ">";
-    }
-
-    @Override
-    public String toString() {
-        return "WrapperData{" +
-                "superClassShortName='" + superClassShortName + '\'' +
-                ", wrapperFullName='" + wrapperFullName + '\'' +
-                ", wrapperShortName='" + wrapperShortName + '\'' +
-                ", valueTypeName='" + valueTypeName + '\'' +
-                ", isPrimitive=" + isPrimitive +
-                ", genericParam='" + genericParam + '\'' +
-                '}';
     }
 }

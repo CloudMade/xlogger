@@ -54,8 +54,8 @@ class BindingLoggerInitializerGenerator {
      */
     private String getFieldReinitializeCodeSnippet(WrapperData wrapperData, String simpleName) {
         VelocityContext velocityContext = new VelocityContext();
-        velocityContext.put("fullObservableWrapperName", wrapperData.wrapperFullName);
-        velocityContext.put("genericType", wrapperData.isPrimitive ? "" : wrapperData.genericParam);
+        velocityContext.put("fullWrapperName", wrapperData.wrapperFullName);
+        velocityContext.put("genericType", "<" + wrapperData.valueTypeName + ">");
         velocityContext.put("fieldName", simpleName);
 
         return classGenerator.mergeVelocityContext(velocityContext, VelocityTemplate.INIT_FIELD);
