@@ -20,9 +20,9 @@ public class $resultClassName<T> extends $sourceClass<T> {
 
     private void restorePreviousValue(T value) {
         if (android.os.Looper.getMainLooper().getThread() == Thread.currentThread()) {
-            setValue(value);
+            super.setValue(value);
         } else {
-            postValue(value);
+            super.postValue(value);
         }
     }
 }
