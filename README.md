@@ -19,8 +19,8 @@ And in **Logcat** message can be seen:
 
 ### Installation:
 
-    implementation 'com.cloudmade.xlogger:xlogger:1.2.0'
-    annotationProcessor 'com.cloudmade.xlogger:xlogger:1.2.0'
+    implementation 'com.cloudmade.xlogger:xlogger:1.3.0'
+    annotationProcessor 'com.cloudmade.xlogger:xlogger:1.3.0'
 
 
 

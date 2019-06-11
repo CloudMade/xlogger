@@ -7,6 +7,7 @@ public class $resultClassName<T> extends $sourceClass<T> {
 
     public $resultClassName(T value, String fieldName, String enclosingClassName) {
         super();
+        restorePreviousValue(value);
         this.fieldName = fieldName;
         this.enclosingClassName = enclosingClassName;
     }
@@ -15,5 +16,13 @@ public class $resultClassName<T> extends $sourceClass<T> {
     public void setValue(T value) {
         super.setValue(value);
         android.util.Log.d("UI", "value " + value + " was set into " + enclosingClassName + "." + fieldName);
+    }
+
+    private void restorePreviousValue(T value) {
+        if (android.os.Looper.getMainLooper().getThread() == Thread.currentThread()) {
+            setValue(value);
+        } else {
+            postValue(value);
+        }
     }
 }
